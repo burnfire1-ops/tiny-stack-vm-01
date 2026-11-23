@@ -3,12 +3,12 @@
 // fs/path via process.getBuiltinModule (no bare require in ESM). No Date,
 // no Math.random, no clock: deterministic. Reference VM is the source of truth.
 (() => {
-  const { readdirSync, readFileSync, writeFileSync, mkdirSync } = process.getBuiltinModule('fs');
-  const { join } = process.getBuiltinModule('path');
+  const { readdirSync, readFileSync, writeFileSync, mkdirSync } = process.getBuiltinModule('fs'); // R5
+  const { join } = process.getBuiltinModule('path'); // R5
   const enc = new TextEncoder();
   // [byte, immediate bytes, pops, pushes, name] — same table as vm.mjs OPS.
   const OPS = [
-    [0x00, 0, 0, 0, 'HALT'], [0x01, 1, 0, 1, 'PUSH8'], [0x02, 4, 0, 1, 'PUSH32'],
+    [0x00, 0, 0, 0, 'HALT'], [0x01, 1, 0, 1, 'PUSH8'], [0x02, 4, 0, 1, 'PUSH32'], // R5
     [0x03, 0, 1, 0, 'POP'], [0x04, 0, 1, 2, 'DUP'], [0x05, 0, 2, 2, 'SWAP'],
     [0x06, 0, 2, 3, 'OVER'], [0x07, 0, 3, 3, 'ROT'],
     [0x10, 0, 2, 1, 'ADD'], [0x11, 0, 2, 1, 'SUB'], [0x12, 0, 2, 1, 'MUL'],
